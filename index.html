@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            width: 100vh;
+            color: white;
+        }
+
+        .light-on {
+            background-color: #48B418;
+        }
+
+        .light-off {
+            background-color: #7D1B1B;
+        }
+
+        .container {
+            padding: 4px;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async (event) => {
+            const time = document.querySelector('#time')
+            time.innerHTML = new Date().toLocaleTimeString()
+
+
+            const params = new URLSearchParams(window.location.search)
+
+            const ip = params.get('ip')
+
+            const request = new Request(`https://vadymklymenko.com/ping/?ip=${ip}`, { headers: { "Accept": "application/json" } })
+            const data = await fetch(request)
+                .then(response => {
+                    if (response.status === 200) {
+                        return response.json();
+                    } else {
+                        return { error: 'Что-то пошло не так на API сервере.' }
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                    return { error }
+                });
+
+
+            const body = document.querySelector('body')
+            const status = document.querySelector('#status')
+            if (data.status && data.status == 'ok') {
+                body.classList.add('light-on')
+                body.classList.remove('light-off')
+                status.innerHTML = 'Світло є'
+            } else {
+                body.classList.add('light-off')
+                body.classList.remove('light-on')
+                status.innerHTML = 'Світла немає'
+            }
+        })
+    </script>
+</head>
+
+<body>
+    <div class="container">
+
+        <h1 id="status"></h1>
+        <div>
+            <p>Оновлено</p>
+            <h3 id="time"></h3>
+        </div>
+    </div>
+
+</body>
+
+</html>
