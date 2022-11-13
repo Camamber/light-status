@@ -32,7 +32,19 @@
             padding: 4px;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
+</head>
+
+<body>
+    <div class="container">
+
+        <h1 id="status"></h1>
+        <div>
+            <p>Оновлено</p>
+            <h3 id="time"></h3>
+        </div>
+    </div>
     <script>
         document.addEventListener('DOMContentLoaded', async (event) => {
             const time = document.querySelector('#time')
@@ -43,20 +55,10 @@
 
             const ip = params.get('ip')
 
-            const request = new Request(`https://vadymklymenko.com/ping/?ip=${ip}`, { headers: { "Accept": "application/json" }, mode: "no-cors" })
-            const data = await fetch(request)
-                .then(response => {
-                    if (response.status === 200) {
-                        return response.json();
-                    } else {
-                        return { error: 'Что-то пошло не так на API сервере.' }
-                    }
-                })
-                .catch(error => {
-                    console.error(error);
-                    return { error }
-                });
-
+            const request = new Request(`https://vadymklymenko.com/ping/?ip=${ip}`)
+            const response = await fetch(request)
+            
+            const data = await response.json()
 
             const body = document.querySelector('body')
             const status = document.querySelector('#status')
@@ -71,18 +73,6 @@
             }
         })
     </script>
-</head>
-
-<body>
-    <div class="container">
-
-        <h1 id="status"></h1>
-        <div>
-            <p>Оновлено</p>
-            <h3 id="time"></h3>
-        </div>
-    </div>
-
 </body>
 
 </html>
