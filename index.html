@@ -43,7 +43,7 @@
 
             const ip = params.get('ip')
 
-            const request = new Request(`https://vadymklymenko.com/ping/?ip=${ip}`, { headers: { "Accept": "application/json" } })
+            const request = new Request(`https://vadymklymenko.com/ping/?ip=${ip}`, { headers: { "Accept": "application/json" }, mode: "no-cors" })
             const data = await fetch(request)
                 .then(response => {
                     if (response.status === 200) {
