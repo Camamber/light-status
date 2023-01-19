@@ -55,14 +55,18 @@
 
             const ip = params.get('ip')
 
-            const request = new Request(`https://vadymklymenko.com/ping/?ip=${ip}`)
+            const url = `https://vadymklymenko.com/ping/?ip=${ip}`
+            const host1 = `https://api.allorigins.win/get?url=`
+            const host2 =  `http://www.whateverorigin.org/get?url=`
+            const request = new Request(`${host2}${encodeURIComponent(url)}`)
             const response = await fetch(request)
             
             const data = await response.json()
+            const ipData = JSON.parse(data.contents)
 
             const body = document.querySelector('body')
             const status = document.querySelector('#status')
-            if (data.status && data.status == 'ok') {
+            if (ipData.status && ipData.status == 'ok') {
                 body.classList.add('light-on')
                 body.classList.remove('light-off')
                 status.innerHTML = 'Світло є'
