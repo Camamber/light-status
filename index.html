@@ -58,7 +58,7 @@
             const url = `https://vadymklymenko.com/ping/?ip=${ip}`
             const host1 = `https://api.allorigins.win/get?url=`
             const host2 =  `http://www.whateverorigin.org/get?url=`
-            const request = new Request(`${host2}${encodeURIComponent(url)}`)
+            const request = new Request(`${host1}${encodeURIComponent(url)}`)
             const response = await fetch(request)
             
             const data = await response.json()
